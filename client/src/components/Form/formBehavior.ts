@@ -1,4 +1,4 @@
-import { contactSchema } from "../Form/contactSchema ";
+import { contactSchema } from "./contactSchema";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";

@@ -22,4 +22,8 @@ export const contactSchema = z.object({
     .string()
     .min(1, "Wiadomość jest wymagana")
     .max(2000, "Wiadomość jest za długa"),
+
+  consent: z.boolean().refine((value) => value === true, {
+    message: "Proszę zaakceptować regulamin",
+  }),
 });

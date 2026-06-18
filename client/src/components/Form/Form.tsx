@@ -2,8 +2,15 @@ import useContactForm from "../Form/formBehavior";
 import Input from "./Input/input";
 
 export default function Form() {
-  const { handleSubmit, register, isSubmitting, onSubmit, errors } =
-    useContactForm();
+  const {
+    handleSubmit,
+    register,
+    isSubmitting,
+    onSubmit,
+    sent,
+    sentFailed,
+    errors,
+  } = useContactForm();
 
   return (
     <>
@@ -17,12 +24,10 @@ w-full pb-2 min-[519px]:max-w-lg  md:max-w-lg  md:h-auto
     px-5 md:px-8
     py-6
     space-y-6
-
 mb-0 md:-mb-185
 "
         onSubmit={handleSubmit(onSubmit)}
       >
-
         <Input
           errors={errors}
           register={register}
@@ -53,7 +58,12 @@ mb-0 md:-mb-185
             },
           ]}
         />
-
+        <label
+          className="text-xs uppercase tracking-wider text-gray-500  font-semibold block mb-3"
+          htmlFor="message"
+        >
+          Wiadomości
+        </label>
         <textarea
           rows={4}
           className="w-full
@@ -79,14 +89,36 @@ mb-0 md:-mb-185
           </p>
         )}
 
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="block  mx-auto  w-[70%] min-[519px]:w-60 md:w-60 px-8 py-3  border-2 border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white transition-colors duration-300 rounded mb-4"
-          id="submit"
-        >
-          {isSubmitting ? "Wysyłanie..." : "Wyslij"}
-        </button>
+
+        {isSubmitting || sent || sentFailed ? (
+          ""
+        ) : (
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="block  mx-auto  m-5  w-[70%] min-[519px]:w-60 md:w-60 px-8 py-3  border-2 border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white transition-colors duration-300 rounded mb-4"
+            id="submit"
+          >
+            Wyślij
+          </button>
+        )}
+
+        {isSubmitting && (
+          <p className="block  mx-auto m-5 w-[90%] min-[519px]:w-90md:w-90 px-8 py-2.5  border-2 border-amber-600 bg-amber-200 text-amber-600 transition-colors duration-300 rounded mb-4 text-center">
+            Wysyłanie...
+          </p>
+        )}
+        {sent && (
+          <p className="block  mx-auto m-5 w-[90%] min-[519px]:w-90md:w-90 px-8 py-2.5  border-2 border-green-600 bg-green-200 text-green-600 transition-colors duration-300 rounded mb-4 text-center">
+            Wysłano
+          </p>
+        )}
+
+        {sentFailed && (
+          <p className="block  mx-auto m-5 w-[90%] min-[519px]:w-90md:w-90 px-8 py-2.5  border-2 border-red-600 bg-red-200 text-red-600 transition-colors duration-300 rounded mb-4 text-center">
+            Błąd wysyłania formularza
+          </p>
+        )}
       </form>
     </>
   );

@@ -89,6 +89,24 @@ mb-0 md:-mb-185
           </p>
         )}
 
+        <label className="pt-10" htmlFor="consent">
+          <input type="checkbox" id="consent" {...register("consent")} />
+          <span> Zapoznałem(-am) się z </span>
+          <a
+            className="text-[#d6b86b]"
+            href="/https://sensualbeauty.pl/img/polityka-prywatnosci.pdf"
+            target="_blank"
+          >
+            Polityką Prywatności
+          </a>
+          .
+        </label>
+
+        {errors.consent && (
+          <p className="text-red-600 text-[13px] -mt-0">
+            {errors.consent.message}
+          </p>
+        )}
 
         {isSubmitting || sent || sentFailed ? (
           ""

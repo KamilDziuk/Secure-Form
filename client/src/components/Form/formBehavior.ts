@@ -18,6 +18,9 @@ export default function useContactForm() {
     formState: { errors, isSubmitting },
   } = useForm<ContactSchema>({
     resolver: zodResolver(contactSchema),
+    defaultValues: {
+      consent: false,
+    },
   });
 
   const onSubmit = async (data: ContactSchema) => {
@@ -30,12 +33,12 @@ export default function useContactForm() {
 
       setTimeout(() => {
         setSent(false);
-      }, 3000);
+      }, 5000);
     } catch (error) {
       setSentFailed(true);
       setTimeout(() => {
         setSentFailed(false);
-      }, 3000);
+      }, 5000);
       console.error(error);
     }
   };

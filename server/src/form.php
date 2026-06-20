@@ -30,7 +30,7 @@ function logSecurity($reason, $email = null) {
         'reason' => $reason
     ];
 
-    // upewnij się, że folder /logs istnieje
+  
     file_put_contents(
         __DIR__ . '/logs/security.json',
         json_encode($log) . "\n",

@@ -21,6 +21,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 
+
+function logSecurity($reason, $email = null) {
+    $log = [
+        'time' => date('c'),
+        'ip' => $_SERVER['REMOTE_ADDR'] ?? 'unknown',
+        'email' => $email,
+        'reason' => $reason
+    ];
+
+  
+    file_put_contents(
+        __DIR__ . '/logs/security.json',
+        json_encode($log) . "\n",
+        FILE_APPEND
+    );
+}
+
+
+
 $data = json_decode(file_get_contents('php://input'), true);
 
 if (!is_array($data)) {
@@ -35,6 +54,15 @@ $lastName  = trim(substr($data['lastName'] ?? '', 1, 20));
 $phone     = trim(substr($data['phone'] ?? '', 6, 20));
 $email     = trim(substr($data['email'] ?? '', 1, 30));
 $message   = trim(substr($data['message'] ?? '', 1, 2000));
+$consent   = $data['consent'] ?? false;
+
+
+if (!$consent) {
+    logSecurity('missing_consent', $email);
+    http_response_code(400);
+    echo json_encode(['success' => false, 'error' => 'Proszę zaakceptować regulamin']);
+    exit;
+}
 
 
 if (!$firstName || !$lastName || !$phone || !$email || !$message) {
